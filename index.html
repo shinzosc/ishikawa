@@ -789,12 +789,15 @@ function countDesc(n){ return n.hijos.reduce((s, h) => s + 1 + countDesc(h), 0);
 function renderLayers(){ const el = $("#layerBody"); const cp = capas();
   let h = `<div class="help">Categorías</div><div class="row">` + state.categorias.map(c => `<label class="pill" style="cursor:pointer"><input type="checkbox" data-lcat="${c.id}" ${catVisible(c) ? "checked" : ""} style="margin:0 2px 0 0"> ${esc(c.nombre)}</label>`).join("") + `</div>`;
   h += `<div class="row"><span class="help">Mostrar hasta nivel</span><select id="lMax">${[1,2,3,4,5,6].map(n => `<option value="${n}" ${cp.maxNivel === n ? "selected" : ""}>${n}</option>`).join("")}<option value="99" ${cp.maxNivel === 99 ? "selected" : ""}>todos</option></select>`;
-  h += `<label class="pill" style="cursor:pointer"><input type="checkbox" id="lRoot" ${cp.soloRaiz ? "checked" : ""} style="margin:0 2px 0 0"> solo ramas con causa raíz</label><label class="pill" style="cursor:pointer"><input type="checkbox" id="lSil" ${ui.silueta !== false ? "checked" : ""} style="margin:0 2px 0 0"> silueta del pez</label></div>`;
+  h += `<label class="pill" style="cursor:pointer"><input type="checkbox" id="lRoot" ${cp.soloRaiz ? "checked" : ""} style="margin:0 2px 0 0"> solo ramas con causa raíz</label><label class="pill" style="cursor:pointer"><input type="checkbox" id="lSil" ${ui.silueta !== false ? "checked" : ""} style="margin:0 2px 0 0"> silueta del pez</label></div>
+  <div class="help" style="margin-top:4px">Pantalla</div><div class="row"><span class="help">Panel</span><select id="lPanel"><option value="right" ${ui.panel !== "left" ? "selected" : ""}>derecha</option><option value="left" ${ui.panel === "left" ? "selected" : ""}>izquierda</option></select><span class="help">Cabeza</span><select id="lDir"><option value="right" ${fishDir() === "right" ? "selected" : ""}>derecha</option><option value="left" ${fishDir() === "left" ? "selected" : ""}>izquierda</option></select></div>`;
   el.innerHTML = h;
   el.querySelectorAll("[data-lcat]").forEach(i => i.addEventListener("change", () => { cp.cats[i.dataset.lcat] = i.checked; render(); }));
   $("#lMax").addEventListener("change", e => { cp.maxNivel = +e.target.value; render(); });
   $("#lRoot").addEventListener("change", e => { cp.soloRaiz = e.target.checked; render(); });
-  $("#lSil").addEventListener("change", e => { ui.silueta = e.target.checked; uiSave(); render(); }); }
+  $("#lSil").addEventListener("change", e => { ui.silueta = e.target.checked; uiSave(); render(); });
+  $("#lPanel").addEventListener("change", e => { ui.panel = e.target.value; uiSave(); applyUi(); $("#uiPanel").value = ui.panel; });
+  $("#lDir").addEventListener("change", e => { ui.dir = e.target.value; uiSave(); $("#uiDir").value = ui.dir; render(); }); }
 
 /* ============ Panel: categorías ============ */
 function renderCats(){
@@ -1311,6 +1314,8 @@ const DICT = {
   "Empezar un pescado nuevo": "Start a new fishbone", "Abrir el Caso de Práctica": "Open the Practice Fishbone", "Leer la Guía rápida": "Read the Quick guide",
   "Cada cascada de porqués se cuenta de regreso, desde la última causa hasta el efecto:": "Each cascade of whys is told backwards, from the last cause to the effect:", "si resolvemos esto, entonces aquello deja de ocurrir… y el problema se reduce": "if we solve this, then that stops happening… and the problem is reduced", ". Es la prueba de ácido del análisis: si la historia no tiene lógica, esa línea no resuelve el problema y conviene cerrarla como Fin de línea.": ". It is the acid test of the analysis: if the story makes no sense, that line does not solve the problem and it is better to close it as a Dead end.",
   "Copiar respaldo": "Copy backup", "Pegar respaldo": "Paste backup", "Copia todos tus pescados como texto para pegarlo en un correo o WhatsApp": "Copies all your fishbones as text to paste into an e-mail or WhatsApp", "Pega aquí un respaldo copiado en otra computadora": "Paste here a backup copied on another computer", "Pega aquí el texto que copiaste con \"Copiar respaldo\" o \"Guardar\" en otra computadora y pulsa Importar.": "Paste here the text you copied with \"Copy backup\" or \"Save\" on another computer and press Import.", "Respaldo copiado. Pégalo en un correo, nota o WhatsApp para guardarlo.": "Backup copied. Paste it into an e-mail, note or WhatsApp to keep it.", "Respaldo copiado": "Backup copied", "No se pudo copiar": "Could not copy", "Ese texto no es un respaldo de Shinzo Poderoso Ishikawa": "That text is not a Shinzo's Powerful Ishikawa backup", "Descargando… Si tu navegador no lo descarga, usa Copiar respaldo en Mis Pescados": "Downloading… If your browser does not download it, use Copy backup in My Fishbones",
+  "Pantalla": "Screen", "Panel": "Panel", "Cabeza": "Head", "a la derecha": "on the right", "a la izquierda": "on the left",
+  "derecha": "right", "izquierda": "left",
 
   "Ishikawa Shinzo": APP_NAME.en, "· análisis causa-efecto": "· cause-and-effect analysis",
   "Inicio": "Home", "Mis Pescados": "My Fishbones", "Guía rápida": "Quick guide", "Caso FYMSA": "FYMSA case", "Configuración": "Settings", "Pescado": "Fish", "Ishikawa Story": "Ishikawa Story", "Causas raíz": "Root causes", "A3 · 5W2H": "A3 · 5W2H",
