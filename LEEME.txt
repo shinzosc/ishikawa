@@ -1,0 +1,9 @@
+Shinzo Poderoso Ishikawa · carpeta lista para GitHub Pages
+
+1. En github.com (usuario shinzosc) pulsa + → New repository. Nombre: ishikawa. Public. Marca "Add a README file". Create repository.
+2. Add file → Upload files: arrastra los 7 archivos de esta carpeta (sueltos, no la carpeta). Commit changes.
+3. Settings → Pages → Source: Deploy from a branch · Branch: main · / (root) → Save.
+4. En 1 o 2 minutos: https://shinzosc.github.io/ishikawa/
+
+Para actualizar: sube el index.html nuevo (reemplaza el anterior) y cambia el número en sw.js (CACHE = "ishikawa-v8", etc.).
+Los análisis de cada persona viven en su propio navegador (Mis Pescados); la liga nueva empieza vacía: cada quien puede traer sus pescados con Guardar → Abrir, o con Copiar respaldo → Pegar respaldo.
